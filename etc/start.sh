@@ -1,6 +1,6 @@
 cd dist
 
-npm install --production
+npm install --omit=dev
 
 export NODE_ENV=test
 
