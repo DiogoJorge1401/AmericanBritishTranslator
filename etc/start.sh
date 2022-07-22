@@ -1,6 +1,6 @@
 cd dist
 
-yarn install --production
+npm install --production
 
 export NODE_ENV=test
 
