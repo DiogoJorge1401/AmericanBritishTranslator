@@ -5,8 +5,12 @@ export default function (app: Application) {
   const translator = new Translator();
 
   app.post("/api/translate", (req, res) => {
-    const { text, locale } = req.body;
-    const translation = translator.translate(text,locale)
-    res.json({ text, translation });
+    try {
+      const { text, locale } = req.body;
+      const translation = translator.translate(text, locale);
+      return res.json({ text, translation });
+    } catch (error: any) {
+      return res.json({ error: error.message });
+    }
   });
 }
