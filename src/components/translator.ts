@@ -1,6 +1,9 @@
 import americanOnly from "./american-only";
 import americanToBritishSpelling from "./american-to-british-spelling";
-import americanToBritishTitles from "./american-to-british-titles";
+import americanToBritishTitles, {
+  changeTitlesBri,
+  isTitleBri,
+} from "./american-to-british-titles";
 import britishOnly from "./british-only";
 
 type Locale = "american-to-british" | "british-to-american";
@@ -24,35 +27,8 @@ export default class Translator {
     const times = result.match(timeRegex);
 
     if (locale === "american-to-british")
-      this.translationList.forEach((term) => {
-        titles.forEach((el) => {
-          if (result.includes(el[0]))
-            result = result.replace(
-              el[0],
-              `<span class="highlight">${el[1]}</span>`
-            );
-        });
-
-        result = result.replace(
-          new RegExp(`${term[0]}\\b`, "gi"),
-          `<span class="highlight">${term[1]}</span>`
-        );
-      });
-    else
-      this.translationList.forEach((term) => {
-        titles.forEach((el) => {
-          if (result.includes(el[1]))
-            result = result.replace(
-              el[1],
-              `<span class="highlight">${el[0]}</span>`
-            );
-        });
-        
-        result = result.replace(
-          new RegExp(`${term[1]}\\b`, "gi"),
-          `<span class="highlight">${term[0]}</span>`
-        );
-      });
+      result = this.amerticanToBritish(result);
+    else result = this.britishToAmerican(result);
 
     if (times)
       times.forEach((time) => {
@@ -71,6 +47,40 @@ export default class Translator {
     if (result === text) result = "Everything looks good to me!";
 
     return result;
+  }
+
+  private britishToAmerican(text: string) {
+    this.translationList.forEach((term) => {
+      if (isTitleBri(term[1])) {
+        const title = changeTitlesBri(term[1]);
+        text = text.replace(
+          new RegExp(`\\b${term[1]}\\b`),
+          `<span class="highlight">${title}</span>`
+        );
+        return;
+      }
+
+      text = text.replace(
+        new RegExp(`\\b${term[1]}\\b`, "i"),
+        `<span class="highlight">${term[0]}</span>`
+      );
+    });
+    return text;
+  }
+
+  private amerticanToBritish(text: string) {
+    this.translationList.forEach((term) => {
+      titles.forEach((el) => {
+        if (text.includes(el[0]))
+          text = text.replace(el[0], `<span class="highlight">${el[1]}</span>`);
+      });
+
+      text = text.replace(
+        new RegExp(`\\b${term[0]}\\b`, "i"),
+        `<span class="highlight">${term[1]}</span>`
+      );
+    });
+    return text;
   }
 
   private validate(text: string, locale: string) {

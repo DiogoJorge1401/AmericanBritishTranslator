@@ -97,7 +97,7 @@ suite("Unit Tests", () => {
       );
       assert.equal(
         result,
-        `No <span class="highlight">Mr </span>Bond, I expect you to die.`
+        `No <span class="highlight">Mr</span> Bond, I expect you to die.`
       );
       done();
     });
@@ -109,7 +109,7 @@ suite("Unit Tests", () => {
       );
       assert.equal(
         result,
-        `<span class="highlight">Dr </span>Grosh will see you now.`
+        `<span class="highlight">Dr</span> Grosh will see you now.`
       );
       done();
     });
@@ -217,9 +217,10 @@ suite("Unit Tests", () => {
         "Have you met Mrs Kalyani?",
         "british-to-american"
       );
+      
       assert.equal(
         result,
-        `Have you met <span class="highlight">Mrs. </span>Kalyani?`
+        `Have you met <span class="highlight">Mrs.</span> Kalyani?`
       );
       done();
     });
@@ -231,7 +232,7 @@ suite("Unit Tests", () => {
       );
       assert.equal(
         result,
-        `<span class="highlight">Prof. </span>Joyner of King's College, London.`
+        `<span class="highlight">Prof.</span> Joyner of King's College, London.`
       );
       done();
     });
